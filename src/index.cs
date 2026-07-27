@@ -57,7 +57,7 @@ public class DoveCanvasApplication
     private void BeginFrame()
     {
         Raylib.BeginDrawing();
-        Raylib.ClearBackground(Color.Blue);
+        Raylib.ClearBackground(Color.Black);
         rlImGui.Begin();
     }
 
