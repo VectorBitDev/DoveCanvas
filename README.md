@@ -87,5 +87,4 @@ If you'd like to help improve Dove Canvas, feel free to open an issue or submit 
 
 ## License
 
-This project is licensed under the Apache License 2.0.
-[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+This project is licensed under the The Unlicense - see the [LICENSE](LICENSE) file for details.
