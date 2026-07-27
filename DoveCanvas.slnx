@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/tests/stresTest/">
+    <Project Path="tests/stresTest/stresTest.csproj" />
+  </Folder>
+  <Project Path="src/DoveCanvas.csproj" />
+</Solution>

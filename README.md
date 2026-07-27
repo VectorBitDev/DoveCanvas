@@ -2,6 +2,8 @@
 
 # Dove Canvas
 
+> **Current Version:** `v0.1.0-alpha`
+
 A lightweight game engine built on top of **Raylib-cs**, focused on simplicity, performance, and developer-friendly APIs.
 
 Dove Canvas was created to provide a minimal yet capable foundation for building 2D games without unnecessary complexity. It aims to be easy to understand, quick to extend, and enjoyable to work with.
