@@ -30,7 +30,6 @@ public struct WindowConfiguration()
     * @brief A service class that manages the window and its settings.
     * This class is a singleton, meaning there will only be one instance of it throughout the application.
 */
-[Service]
 public class WindowService : Singleton<WindowService>
 {
     private bool IsGameRunning = true;

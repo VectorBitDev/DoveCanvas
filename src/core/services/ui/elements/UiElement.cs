@@ -4,9 +4,20 @@ using Raylib_cs;
 namespace DoveCanvas.Ui;
 
 /**
+ * @enum TextAlignment
+ * @brief Defines the horizontal alignment of text within a UI element.
+ */
+public enum TextAlignment
+{
+    Left,
+    Center,
+    Right
+}
+
+/**
  * @class UIElement
  * @brief Represents a UI element in the DoveCanvas framework.
-*/
+ */
 public abstract class UIElement
 {
     public UIValue<string> Name = "";
@@ -22,6 +33,18 @@ public abstract class UIElement
 
     public UIValue<bool> Visible = true;
     public UIValue<bool> Enabled = true;
+
+    // Sprite rendering
+    public Texture2D? SpriteTexture;
+
+    // Scrollbar state
+    public float ScrollValue = 0f;
+    public float ScrollMax = 100f;
+    public float ViewportSize = 100f;
+    public bool IsVerticalScrollbar = true;
+
+    // Text alignment
+    public TextAlignment TextAlignment = TextAlignment.Left;
 
     private bool wasHovered = false;
 
@@ -182,8 +205,161 @@ public abstract class UIElement
     }
 
     /**
+     * @brief Draws the UI element's background and border using Styles.
+     * This is a helper method that derived classes can call.
+     */
+    protected void DrawBackgroundAndBorder()
+    {
+        if (Styles.CornerRadius > 0.0f)
+        {
+            if (Styles.Background.A > 0)
+            {
+                Raylib.DrawRectangleRounded(
+                    Bounds,
+                    Styles.CornerRadius,
+                    8,
+                    Styles.Background);
+            }
+
+            if (Styles.BorderThickness > 0)
+            {
+                Raylib.DrawRectangleRoundedLinesEx(
+                    Bounds,
+                    Styles.CornerRadius,
+                    8,
+                    Styles.BorderThickness,
+                    Styles.BorderColor);
+            }
+        }
+        else
+        {
+            if (Styles.Background.A > 0)
+            {
+                Raylib.DrawRectangleRec(Bounds, Styles.Background);
+            }
+
+            if (Styles.BorderThickness > 0)
+            {
+                Raylib.DrawRectangleLinesEx(
+                    Bounds,
+                    Styles.BorderThickness,
+                    Styles.BorderColor);
+            }
+        }
+    }
+
+    /**
+     * @brief Draws a sprite/texture within the element's bounds.
+     * Uses SpriteTexture if set, tinted by Styles.Background.
+     */
+    protected void DrawSprite()
+    {
+        if (SpriteTexture.HasValue && SpriteTexture.Value.Id > 0)
+        {
+            Color tint = Styles.Background.A > 0 ? Styles.Background : Color.White;
+            Raylib.DrawTexturePro(
+                SpriteTexture.Value,
+                new Rectangle(0, 0, SpriteTexture.Value.Width, SpriteTexture.Value.Height),
+                Bounds,
+                new Vector2(0, 0),
+                0f,
+                tint);
+        }
+    }
+
+    /**
+     * @brief Draws text using the element's Name as content and Styles for formatting.
+     */
+    protected void DrawText()
+    {
+        string text = Name.Value;
+        if (string.IsNullOrEmpty(text))
+            return;
+
+        int fontSize = Styles.FontSize;
+        int fontSpacing = Styles.FontSpacing;
+        Color textColor = Styles.TextColor;
+
+        Vector2 textSize = Raylib.MeasureTextEx(Raylib.GetFontDefault(), text, fontSize, fontSpacing);
+
+        float x = Bounds.X;
+        float y = Bounds.Y + (Bounds.Height - textSize.Y) * 0.5f;
+
+        switch (TextAlignment)
+        {
+            case TextAlignment.Left:
+                x = Bounds.X + 4;
+                break;
+            case TextAlignment.Center:
+                x = Bounds.X + (Bounds.Width - textSize.X) * 0.5f;
+                break;
+            case TextAlignment.Right:
+                x = Bounds.X + Bounds.Width - textSize.X - 4;
+                break;
+        }
+
+        Raylib.DrawTextEx(Raylib.GetFontDefault(), text, new Vector2(x, y), fontSize, fontSpacing, textColor);
+    }
+
+    /**
+     * @brief Draws a scrollbar within the element's bounds.
+     * Uses ScrollValue, ScrollMax, ViewportSize, and IsVerticalScrollbar for state.
+     * Uses Styles for colors (Background=track, Foreground=thumb, BorderColor/BorderThickness=border).
+     */
+    protected void DrawScrollBar()
+    {
+        if (ViewportSize >= ScrollMax || ScrollMax <= 0)
+            return;
+
+        float trackSize = IsVerticalScrollbar ? Bounds.Height : Bounds.Width;
+        float thumbSize = Math.Max(20f, trackSize * (ViewportSize / ScrollMax));
+        float maxThumbPos = trackSize - thumbSize;
+        float thumbPos = maxThumbPos * (ScrollValue / (ScrollMax - ViewportSize));
+        thumbPos = Math.Clamp(thumbPos, 0, maxThumbPos);
+
+        Rectangle trackRect;
+        Rectangle thumbRect;
+
+        if (IsVerticalScrollbar)
+        {
+            trackRect = new Rectangle(Bounds.X, Bounds.Y, Bounds.Width, Bounds.Height);
+            thumbRect = new Rectangle(Bounds.X, Bounds.Y + thumbPos, Bounds.Width, thumbSize);
+        }
+        else
+        {
+            trackRect = new Rectangle(Bounds.X, Bounds.Y, Bounds.Width, Bounds.Height);
+            thumbRect = new Rectangle(Bounds.X + thumbPos, Bounds.Y, thumbSize, Bounds.Height);
+        }
+
+        // Draw track
+        if (Styles.Background.A > 0)
+        {
+            Raylib.DrawRectangleRec(trackRect, Styles.Background);
+        }
+
+        // Draw thumb
+        if (Styles.Foreground.A > 0)
+        {
+            if (Styles.CornerRadius > 0)
+            {
+                Raylib.DrawRectangleRounded(thumbRect, Styles.CornerRadius, 8, Styles.Foreground);
+            }
+            else
+            {
+                Raylib.DrawRectangleRec(thumbRect, Styles.Foreground);
+            }
+        }
+
+        // Draw border if needed
+        if (Styles.BorderThickness > 0)
+        {
+            Raylib.DrawRectangleLinesEx(trackRect, Styles.BorderThickness, Styles.BorderColor);
+        }
+    }
+
+    /**
      * @brief Draws the UI element.
-    */
+     */
     public virtual void Draw()
     {
         foreach (UIElement child in Children)

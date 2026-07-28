@@ -18,7 +18,6 @@ public enum CameraType
     * @class CameraService
     * @brief A service that provides functionality.
 */
-[Service]
 public class CameraService : Singleton<CameraService>
 {
     private CameraType cameraType;

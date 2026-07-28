@@ -7,7 +7,6 @@ namespace DoveCanvas;
     * @class AudioService
     * @brief A service that provides functionality.
 */
-[Service]
 public class AudioService : Singleton<AudioService>
 {
     private bool _initialized;

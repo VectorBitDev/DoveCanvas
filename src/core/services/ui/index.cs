@@ -9,7 +9,6 @@ namespace DoveCanvas.Ui;
     * @class UiService
     * @brief A service that provides functionality.
 */
-[Service]
 public class UiService : Singleton<UiService>
 {
     private UIElement Root { get; } = new UIPanel()

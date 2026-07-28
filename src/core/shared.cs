@@ -4,11 +4,6 @@ using DoveCanvas.Ui;
 namespace DoveCanvas;
 
 
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
-public sealed class ServiceAttribute : Attribute
-{
-}
-
 /**
     * Services class is a static class that holds references to all the services in the engine.
     * This allows for easy access to services from anywhere in the engine.
@@ -26,10 +21,6 @@ public static class Services
     public static UiService Ui = UiService.Instance;
 }
 
-public static class Task
-{
-
-}
 
 /**
     * Logger class is a static class that provides logging functionality for the engine.

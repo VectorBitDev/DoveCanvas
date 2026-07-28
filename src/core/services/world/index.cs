@@ -6,7 +6,6 @@ namespace DoveCanvas;
     * @class WorldService
     * @brief Manages entities, components and queries.
 */
-[Service]
 public class WorldService : Singleton<WorldService>
 {
     private uint nextEntityId = 1;

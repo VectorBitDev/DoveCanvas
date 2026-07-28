@@ -9,7 +9,6 @@ namespace DoveCanvas;
     * @class SchedularService
     * @brief A service that manages and executes engine systems.
 */
-[Service]
 public class SchedularService : Singleton<SchedularService>
 {
     private readonly List<ISimulationSystem> simulationSystems = [];

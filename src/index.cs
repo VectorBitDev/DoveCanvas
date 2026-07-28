@@ -1,4 +1,11 @@
-﻿using Raylib_cs;
+﻿/**
+    * @file index.cs
+    * @brief The main entry point for the DoveCanvas framework.
+    * @details This file contains the main application class and its methods for initializing, running, and shutting down the application.
+*/
+
+
+using Raylib_cs;
 using rlImGui_cs;
 using DoveCanvas.Abstract;
 using DoveCanvas.Ui;

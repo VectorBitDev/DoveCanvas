@@ -7,7 +7,6 @@ namespace DoveCanvas;
     * @class ResourceService
     * @brief A service that provides functionality for loading engine resources.
 */
-[Service]
 public class ResourceService : Singleton<ResourceService>
 {
     private string _rootDirectory = string.Empty;

@@ -6,7 +6,6 @@ namespace DoveCanvas;
     * @class SceneService
     * @brief A service that provides functionality.
 */
-[Service]
 public class SceneService : Singleton<SceneService>
 {
     private Scene? currentScene;

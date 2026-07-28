@@ -49,7 +49,6 @@ public readonly struct SubProfileInfo
     * @class ProfilerService
     * @brief A service that manages profiling and performance metrics for the engine.
 */
-[Service]
 public class ProfilerService : Singleton<ProfilerService>
 {
     private sealed class SubProfile
