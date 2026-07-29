@@ -1,6 +1,7 @@
 using DoveCanvas.Abstract;
 using System.Numerics;
 using Raylib_cs;
+using System.Text.Json.Serialization;
 
 namespace DoveCanvas;
 
@@ -13,7 +14,11 @@ namespace DoveCanvas;
 */
 public class ModelRenderComponent : Component
 {
-    public Model model;
+    public string ModelPath = string.Empty;
+
+    [JsonIgnore]
+    public Model Model;
+    [JsonIgnore]
     public Texture2D texture;
 }
 
@@ -37,12 +42,17 @@ public class DrawModelSystem : IRenderSystem
     */
     public override void Draw()
     {
+        var WireFrameEnabled = Services.Window.IsDebugViewEnabled();
         foreach (var entity in query.Fetch())
         {
             var ModelComponent = Services.World.GetComponent<ModelRenderComponent>(entity);
             var TransformComponent = Services.World.GetComponent<Transform3dComponent>(entity);
 
-            Raylib.DrawModel(ModelComponent.model, TransformComponent.Position, TransformComponent.scale.X, Color.White);
+
+            if (!WireFrameEnabled)
+                Raylib.DrawModel(ModelComponent.Model, TransformComponent.Position, TransformComponent.Scale.X, Color.White);
+            else
+                Raylib.DrawModelWires(ModelComponent.Model, TransformComponent.Position, TransformComponent.Scale.X, Color.Black);
         }
     }
 }

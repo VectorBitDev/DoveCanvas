@@ -1,6 +1,6 @@
 ﻿using DoveCanvas;
 
-namespace TestDoveCanvas;
+namespace DoveCanvas.Tests.TestDoveCanvas;
 
 /**
     * @class Program

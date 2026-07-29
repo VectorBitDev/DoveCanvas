@@ -23,7 +23,10 @@ public class DoveCanvasApplication
     private SchedularService schedular = Services.Schedular;
     private ProfilerService profiler = Services.Profiler;
     private CameraService camera = Services.Camera;
+    private MapService map = Services.Map;
     private UiService ui = Services.Ui;
+
+    private Color backgroundColor = Color.Black;
 
     /**
         * @brief Initializes the DoveCanvas application.
@@ -37,6 +40,7 @@ public class DoveCanvasApplication
         }
 
         Services.Window.Initialize(settings);
+        Services.World.Initialize();
 
         Services.Schedular.Initialize();
         Services.Resource.Initialize();
@@ -54,6 +58,10 @@ public class DoveCanvasApplication
     private void Shutdown(Action onShutdown)
     {
         onShutdown?.Invoke();
+
+        Services.World.Shutdown();
+        Services.Scene.UnloadCurrentScene();
+
         Services.Window.ShutdownWindow();
     }
 
@@ -64,7 +72,7 @@ public class DoveCanvasApplication
     private void BeginFrame()
     {
         Raylib.BeginDrawing();
-        Raylib.ClearBackground(Color.Black);
+        Raylib.ClearBackground(backgroundColor);
         rlImGui.Begin();
     }
 
@@ -89,6 +97,16 @@ public class DoveCanvasApplication
     }
 
     /**
+        * @brief Sets the background color for the DoveCanvas application.
+        * @param color The color to be set as the background color.
+    */
+    public DoveCanvasApplication SetBackgroundColor(Color color)
+    {
+        backgroundColor = color;
+        return this;
+    }
+
+    /**
         * @brief Runs the DoveCanvas application.
         * @param onStartup A callback function to be executed on application startup.
         * @param onShutdown A callback function to be executed on application shutdown.
@@ -105,9 +123,10 @@ public class DoveCanvasApplication
                 schedular.Tick();
 
                 this.BeginFrame();
-                // camera.BeginCamera();
+                camera.BeginCamera();
                 schedular.Draw();
-                // camera.EndCamera();
+                map.DrawMap();
+                camera.EndCamera();
 
                 ui.Update();
                 ui.Draw();

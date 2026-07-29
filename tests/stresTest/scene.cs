@@ -3,7 +3,7 @@ using DoveCanvas;
 using System.Numerics;
 using Raylib_cs;
 
-namespace TestDoveCanvas;
+namespace DoveCanvas.Tests.TestDoveCanvas;
 
 /**
     * @class TestScene
@@ -59,5 +59,6 @@ public class StressTestScene : Scene
     */
     public override void Draw()
     {
+        Raylib.DrawCircle3D(new Vector3(0, 10, 0), 5.0f, new Vector3(1, 0, 0), 45.0f, Color.Red);
     }
 }

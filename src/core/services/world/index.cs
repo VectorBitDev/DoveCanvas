@@ -20,6 +20,8 @@ public class WorldService : Singleton<WorldService>
 
     private readonly List<WorldQuery> queries = [];
 
+    private readonly Dictionary<uint, List<Action<Entity>>> entityDestroyedCallbacks = [];
+
     /**
         * @brief Gets all entities in the world.
     */
@@ -79,11 +81,22 @@ public class WorldService : Singleton<WorldService>
     */
     public void DestroyEntity(Entity entity)
     {
-        if (!entityLookup.Remove(entity.Id))
+        if (!entityLookup.ContainsKey(entity.Id))
         {
             return;
         }
 
+        if (entityDestroyedCallbacks.TryGetValue(entity.Id, out List<Action<Entity>>? callbacks))
+        {
+            foreach (Action<Entity> callback in callbacks)
+            {
+                callback(entity);
+            }
+
+            entityDestroyedCallbacks.Remove(entity.Id);
+        }
+
+        entityLookup.Remove(entity.Id);
         entities.Remove(entity);
 
         foreach (Dictionary<uint, Component> pool in componentPools.Values)
@@ -101,9 +114,15 @@ public class WorldService : Singleton<WorldService>
         * @param entity The entity.
         * @param component The component.
     */
-    public void AddComponent<T>(Entity entity, T component) where T : Component
+    public void AddComponent(Entity entity, Component component)
     {
-        Dictionary<uint, Component> pool = GetPool<T>();
+        Type type = component.GetType();
+
+        if (!componentPools.TryGetValue(type, out Dictionary<uint, Component>? pool))
+        {
+            pool = [];
+            componentPools.Add(type, pool);
+        }
 
         pool[entity.Id] = component;
 
@@ -293,7 +312,7 @@ public class WorldService : Singleton<WorldService>
         * @brief Returns all entities.
         * @return The entity list.
     */
-    public IReadOnlyList<Entity> GetEntities()
+    public IReadOnlyList<Entity> GetAllEntities()
     {
         return entities;
     }
@@ -332,5 +351,43 @@ public class WorldService : Singleton<WorldService>
         {
             query.Invalidate();
         }
+    }
+
+    /**
+        * @brief Registers a callback that is invoked when the entity is destroyed.
+        * @param entity The entity to observe.
+        * @param callback The callback to invoke.
+    */
+    public void OnEntityDestroyed(Entity entity, Action<Entity> callback)
+    {
+        if (!entityDestroyedCallbacks.TryGetValue(entity.Id, out List<Action<Entity>>? callbacks))
+        {
+            callbacks = [];
+            entityDestroyedCallbacks.Add(entity.Id, callbacks);
+        }
+
+        callbacks.Add(callback);
+    }
+
+    /**
+        * @brief Clears the world, removing all entities, components, and queries.
+    */
+    public void Clear()
+    {
+        entities.Clear();
+        entityLookup.Clear();
+        freeEntityIds.Clear();
+        componentPools.Clear();
+        entityDestroyedCallbacks.Clear();
+
+        nextEntityId = 1;
+
+        InvalidateQueries();
+    }
+
+    internal void Shutdown()
+    {
+        Clear();
+        queries.Clear();
     }
 }

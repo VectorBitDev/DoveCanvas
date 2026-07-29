@@ -17,8 +17,28 @@ public class ResourceService : Singleton<ResourceService>
     */
     public void Initialize()
     {
+        FindProjectRoot();
+    }
+
+    /**
+        * @brief Finds the project root directory by searching for a .csproj file.
+    */
+    private void FindProjectRoot()
+    {
+        DirectoryInfo? directory = new(AppContext.BaseDirectory);
+
+        while (directory != null)
+        {
+            if (directory.GetFiles("*.csproj").Length > 0)
+            {
+                _rootDirectory = directory.FullName;
+                return;
+            }
+
+            directory = directory.Parent;
+        }
+
         _rootDirectory = AppContext.BaseDirectory;
-        _assetsDirectory = Path.Combine(_rootDirectory, "Assets");
     }
 
     /**
@@ -28,7 +48,12 @@ public class ResourceService : Singleton<ResourceService>
     */
     private string GetPath(string path)
     {
-        return Path.Combine(_assetsDirectory, path);
+        if (string.IsNullOrEmpty(path))
+        {
+            Logger.Error("Path is null or empty.");
+            return string.Empty;
+        }
+        return Path.Combine(_rootDirectory, path);
     }
 
     /**
@@ -38,6 +63,11 @@ public class ResourceService : Singleton<ResourceService>
     */
     public bool Exists(string path)
     {
+        if (string.IsNullOrEmpty(path))
+        {
+            Logger.Error("Path is null or empty.");
+            return false;
+        }
         return File.Exists(GetPath(path));
     }
 
@@ -48,6 +78,11 @@ public class ResourceService : Singleton<ResourceService>
     */
     public Image LoadImage(string path)
     {
+        if (!Exists(path))
+        {
+            Logger.Error($"Image file '{path}' does not exist.");
+            return default;
+        }
         return Raylib.LoadImage(GetPath(path));
     }
 
@@ -58,6 +93,11 @@ public class ResourceService : Singleton<ResourceService>
     */
     public Texture2D LoadTexture(string path)
     {
+        if (!Exists(path))
+        {
+            Logger.Error($"Texture file '{path}' does not exist.");
+            return default;
+        }
         return Raylib.LoadTexture(GetPath(path));
     }
 
@@ -68,6 +108,11 @@ public class ResourceService : Singleton<ResourceService>
     */
     public Font LoadFont(string path, int size = 32)
     {
+        if (!Exists(path))
+        {
+            Logger.Error($"Font file '{path}' does not exist.");
+            return default;
+        }
         return Raylib.LoadFontEx(GetPath(path), size, null, 0);
     }
 
@@ -78,6 +123,11 @@ public class ResourceService : Singleton<ResourceService>
     */
     public Sound LoadSound(string path)
     {
+        if (!Exists(path))
+        {
+            Logger.Error($"Sound file '{path}' does not exist.");
+            return default;
+        }
         return Raylib.LoadSound(GetPath(path));
     }
 
@@ -88,6 +138,11 @@ public class ResourceService : Singleton<ResourceService>
     */
     public Music LoadMusic(string path)
     {
+        if (!Exists(path))
+        {
+            Logger.Error($"Music file '{path}' does not exist.");
+            return default;
+        }
         return Raylib.LoadMusicStream(GetPath(path));
     }
 
@@ -96,8 +151,13 @@ public class ResourceService : Singleton<ResourceService>
         * @param path Relative model path.
         * @return Loaded model.
     */
-    public Model LoadModel(string path)
+    public Model? LoadModel(string path)
     {
+        if (!Exists(path))
+        {
+            Logger.Error($"Model file '{path}' does not exist.");
+            return null;
+        }
         return Raylib.LoadModel(GetPath(path));
     }
 
@@ -109,6 +169,11 @@ public class ResourceService : Singleton<ResourceService>
     */
     public Shader LoadShader(string vertexPath, string fragmentPath)
     {
+        if (!Exists(vertexPath))
+        {
+            Logger.Error($"Vertex shader file '{vertexPath}' does not exist.");
+            return default;
+        }
         return Raylib.LoadShader(
             GetPath(vertexPath),
             GetPath(fragmentPath)

@@ -35,9 +35,21 @@ public class SceneService : Singleton<SceneService>
         else
         {
             currentScene?.Unload();
+            Services.World.Clear();
         }
         currentScene = newScene;
         currentScene.Load();
+    }
+
+    /**
+        * @brief Unloads the current scene and clears the world.
+        * @returns void
+    */
+    internal void UnloadCurrentScene()
+    {
+        currentScene?.Unload();
+        Services.World.Clear();
+        currentScene = null;
     }
 
     /**

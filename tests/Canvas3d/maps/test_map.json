@@ -1,0 +1,433 @@
+{
+  "MapName": "TestMap",
+  "Entities": [
+    {
+      "Components": [
+        {
+          "Type": "DoveCanvas.Shape3dRenderComponent",
+          "Data": {
+            "Shape": 8,
+            "Color": {
+              "R": 130,
+              "G": 130,
+              "B": 130,
+              "A": 255
+            },
+            "Radius": 1,
+            "RadiusTop": 1,
+            "RadiusBottom": 1,
+            "Height": 1,
+            "Sides": 16,
+            "Slices": 10
+          }
+        },
+        {
+          "Type": "DoveCanvas.Transform3dComponent",
+          "Data": {
+            "Position": {
+              "X": 0,
+              "Y": 0,
+              "Z": 0
+            },
+            "Scale": {
+              "X": 100,
+              "Y": 1,
+              "Z": 100
+            },
+            "Rotation": {
+              "IsIdentity": true,
+              "X": 0,
+              "Y": 0,
+              "Z": 0,
+              "W": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Components": [
+        {
+          "Type": "DoveCanvas.Shape3dRenderComponent",
+          "Data": {
+            "Shape": 0,
+            "Color": {
+              "R": 0,
+              "G": 121,
+              "B": 241,
+              "A": 255
+            },
+            "Radius": 1,
+            "RadiusTop": 1,
+            "RadiusBottom": 1,
+            "Height": 1,
+            "Sides": 16,
+            "Slices": 10
+          }
+        },
+        {
+          "Type": "DoveCanvas.Transform3dComponent",
+          "Data": {
+            "Position": {
+              "X": -8,
+              "Y": 1,
+              "Z": 0
+            },
+            "Scale": {
+              "X": 2,
+              "Y": 2,
+              "Z": 2
+            },
+            "Rotation": {
+              "IsIdentity": true,
+              "X": 0,
+              "Y": 0,
+              "Z": 0,
+              "W": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Components": [
+        {
+          "Type": "DoveCanvas.Shape3dRenderComponent",
+          "Data": {
+            "Shape": 1,
+            "Color": {
+              "R": 230,
+              "G": 41,
+              "B": 55,
+              "A": 255
+            },
+            "Radius": 1,
+            "RadiusTop": 1,
+            "RadiusBottom": 1,
+            "Height": 1,
+            "Sides": 16,
+            "Slices": 10
+          }
+        },
+        {
+          "Type": "DoveCanvas.Transform3dComponent",
+          "Data": {
+            "Position": {
+              "X": -4,
+              "Y": 1,
+              "Z": 0
+            },
+            "Scale": {
+              "X": 2,
+              "Y": 2,
+              "Z": 2
+            },
+            "Rotation": {
+              "IsIdentity": true,
+              "X": 0,
+              "Y": 0,
+              "Z": 0,
+              "W": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Components": [
+        {
+          "Type": "DoveCanvas.Shape3dRenderComponent",
+          "Data": {
+            "Shape": 2,
+            "Color": {
+              "R": 200,
+              "G": 122,
+              "B": 255,
+              "A": 255
+            },
+            "Radius": 1,
+            "RadiusTop": 1,
+            "RadiusBottom": 1,
+            "Height": 1,
+            "Sides": 16,
+            "Slices": 10
+          }
+        },
+        {
+          "Type": "DoveCanvas.Transform3dComponent",
+          "Data": {
+            "Position": {
+              "X": 0,
+              "Y": 1,
+              "Z": 0
+            },
+            "Scale": {
+              "X": 1,
+              "Y": 2,
+              "Z": 1
+            },
+            "Rotation": {
+              "IsIdentity": true,
+              "X": 0,
+              "Y": 0,
+              "Z": 0,
+              "W": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Components": [
+        {
+          "Type": "DoveCanvas.Shape3dRenderComponent",
+          "Data": {
+            "Shape": 3,
+            "Color": {
+              "R": 190,
+              "G": 33,
+              "B": 55,
+              "A": 255
+            },
+            "Radius": 1,
+            "RadiusTop": 1,
+            "RadiusBottom": 1,
+            "Height": 1,
+            "Sides": 16,
+            "Slices": 10
+          }
+        },
+        {
+          "Type": "DoveCanvas.Transform3dComponent",
+          "Data": {
+            "Position": {
+              "X": 4,
+              "Y": 1,
+              "Z": 0
+            },
+            "Scale": {
+              "X": 1,
+              "Y": 2,
+              "Z": 1
+            },
+            "Rotation": {
+              "IsIdentity": true,
+              "X": 0,
+              "Y": 0,
+              "Z": 0,
+              "W": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Components": [
+        {
+          "Type": "DoveCanvas.Shape3dRenderComponent",
+          "Data": {
+            "Shape": 4,
+            "Color": {
+              "R": 0,
+              "G": 228,
+              "B": 48,
+              "A": 255
+            },
+            "Radius": 1,
+            "RadiusTop": 1,
+            "RadiusBottom": 1,
+            "Height": 1,
+            "Sides": 16,
+            "Slices": 10
+          }
+        },
+        {
+          "Type": "DoveCanvas.Transform3dComponent",
+          "Data": {
+            "Position": {
+              "X": 8,
+              "Y": 1,
+              "Z": 0
+            },
+            "Scale": {
+              "X": 1,
+              "Y": 2.5,
+              "Z": 1
+            },
+            "Rotation": {
+              "IsIdentity": true,
+              "X": 0,
+              "Y": 0,
+              "Z": 0,
+              "W": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Components": [
+        {
+          "Type": "DoveCanvas.Shape3dRenderComponent",
+          "Data": {
+            "Shape": 6,
+            "Color": {
+              "R": 255,
+              "G": 161,
+              "B": 0,
+              "A": 255
+            },
+            "Radius": 1,
+            "RadiusTop": 1,
+            "RadiusBottom": 1,
+            "Height": 1,
+            "Sides": 16,
+            "Slices": 10
+          }
+        },
+        {
+          "Type": "DoveCanvas.Transform3dComponent",
+          "Data": {
+            "Position": {
+              "X": 12,
+              "Y": 2,
+              "Z": 0
+            },
+            "Scale": {
+              "X": 0.75,
+              "Y": 3,
+              "Z": 0.75
+            },
+            "Rotation": {
+              "IsIdentity": true,
+              "X": 0,
+              "Y": 0,
+              "Z": 0,
+              "W": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Components": [
+        {
+          "Type": "DoveCanvas.Shape3dRenderComponent",
+          "Data": {
+            "Shape": 7,
+            "Color": {
+              "R": 127,
+              "G": 106,
+              "B": 79,
+              "A": 255
+            },
+            "Radius": 1,
+            "RadiusTop": 1,
+            "RadiusBottom": 1,
+            "Height": 1,
+            "Sides": 16,
+            "Slices": 10
+          }
+        },
+        {
+          "Type": "DoveCanvas.Transform3dComponent",
+          "Data": {
+            "Position": {
+              "X": 16,
+              "Y": 2,
+              "Z": 0
+            },
+            "Scale": {
+              "X": 0.75,
+              "Y": 3,
+              "Z": 0.75
+            },
+            "Rotation": {
+              "IsIdentity": true,
+              "X": 0,
+              "Y": 0,
+              "Z": 0,
+              "W": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Components": [
+        {
+          "Type": "DoveCanvas.Shape3dRenderComponent",
+          "Data": {
+            "Shape": 11,
+            "Color": {
+              "R": 255,
+              "G": 109,
+              "B": 194,
+              "A": 255
+            },
+            "Radius": 1,
+            "RadiusTop": 1,
+            "RadiusBottom": 1,
+            "Height": 1,
+            "Sides": 16,
+            "Slices": 10
+          }
+        },
+        {
+          "Type": "DoveCanvas.Transform3dComponent",
+          "Data": {
+            "Position": {
+              "X": 20,
+              "Y": 1,
+              "Z": 0
+            },
+            "Scale": {
+              "X": 1,
+              "Y": 2.5,
+              "Z": 1
+            },
+            "Rotation": {
+              "IsIdentity": true,
+              "X": 0,
+              "Y": 0,
+              "Z": 0,
+              "W": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Components": [
+        {
+          "Type": "DoveCanvas.ModelRenderComponent",
+          "Data": {
+            "ModelPath": "assets/monkey.obj"
+          }
+        },
+        {
+          "Type": "DoveCanvas.Transform3dComponent",
+          "Data": {
+            "Position": {
+              "X": 0,
+              "Y": 1,
+              "Z": 4
+            },
+            "Scale": {
+              "X": 1,
+              "Y": 1,
+              "Z": 1
+            },
+            "Rotation": {
+              "IsIdentity": true,
+              "X": 0,
+              "Y": 0,
+              "Z": 0,
+              "W": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

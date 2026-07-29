@@ -82,6 +82,9 @@ internal class ProfilerDebugSystem : IDebugSystem
         ImGui.SameLine(120);
         ImGui.Text($"{frameMs:F2} ms");
 
+        ImGui.Checkbox("Debug View", ref Services.Window.IsRefDebugViewEnabled());
+
+
         ImGui.PlotLines(
             "##FrameTime",
             ref frameHistory[0],

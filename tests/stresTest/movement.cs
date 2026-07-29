@@ -3,7 +3,7 @@ using Raylib_cs;
 using DoveCanvas;
 using DoveCanvas.Abstract;
 
-namespace TestDoveCanvas;
+namespace DoveCanvas.Tests.TestDoveCanvas;
 
 /**
     * @class MovementComponent

@@ -175,6 +175,20 @@ internal class InspectorDebugSystem : IDebugSystem
             return;
         }
 
+        if (type == typeof(Vector3))
+        {
+            Vector3 vector = (Vector3)value;
+
+            if (ImGui.DragFloat3(
+                field.Name,
+                ref vector))
+            {
+                field.SetValue(instance, vector);
+            }
+
+            return;
+        }
+
         if (type == typeof(Color))
         {
             Color color = (Color)value;

@@ -1,5 +1,8 @@
 <Solution>
-  <Folder Name="/tests/" />
+  <Folder Name="/tests/">
+    <Project Path="tests/Canvas2d/Canvas2d.csproj" />
+    <Project Path="tests/Canvas3d/Canvas3d.csproj" />
+  </Folder>
   <Folder Name="/tests/stresTest/">
     <Project Path="tests/stresTest/stresTest.csproj" />
   </Folder>

@@ -11,7 +11,8 @@ namespace DoveCanvas;
 public enum CameraType
 {
     Camera2D,
-    Camera3D
+    Camera3D,
+    Null
 }
 
 /**
@@ -20,29 +21,73 @@ public enum CameraType
 */
 public class CameraService : Singleton<CameraService>
 {
-    private CameraType cameraType;
+    private Entity? cameraEntity;
+    private CameraType? cameraType;
 
-    private Camera2D camera2D;
-    private Camera3D camera3D;
+    private Camera2D camera2D = new Camera2D();
+    private Camera3D camera3D = new Camera3D();
 
     /**
-        * @brief Initializes the camera service with a 2D camera.
-        * @param {Camera2D} camera - The 2D camera to initialize the service with.
+        * @brief Registers a camera entity and its type.
+        * @param cameraEntity The entity representing the camera.
+        * @param cameraType The type of the camera (2D or 3D).
     */
-    public void InitializeCamera(Camera2D camera)
+    public void RegisterCameraEntity(Entity cameraEntity, CameraType cameraType)
     {
-        cameraType = CameraType.Camera2D;
-        camera2D = camera;
+        this.cameraEntity = cameraEntity;
+        this.cameraType = cameraType;
     }
 
     /**
-        * @brief Initializes the camera service with a 3D camera.
-        * @param {Camera3D} camera - The 3D camera to initialize the service with.
+        * @brief Unregisters the current camera entity and resets the camera type to null.
+        * @details This method clears the reference to the current camera entity and sets the camera type to null, effectively disabling any active camera mode.
     */
-    public void InitializeCamera(Camera3D camera)
+    public void UnRegisterCameraEntity()
     {
-        cameraType = CameraType.Camera3D;
-        camera3D = camera;
+        if (this.cameraEntity == null || this.cameraType == null)
+        {
+            return;
+        }
+
+        this.cameraEntity = null;
+        this.cameraType = CameraType.Null;
+    }
+
+    private void UpdateCamera()
+    {
+        if (this.cameraEntity == null || this.cameraType == null)
+        {
+            return;
+        }
+
+        switch (this.cameraType)
+        {
+            case CameraType.Camera2D:
+                var camera2DComponent = Services.World.GetComponent<Camera2dComponent>(this.cameraEntity.Value);
+                var transform2DComponent = Services.World.GetComponent<Transform2dComponent>(this.cameraEntity.Value);
+
+                this.camera2D.Zoom = camera2DComponent.Zoom;
+                this.camera2D.Offset = camera2DComponent.Offset;
+                this.camera2D.Rotation = camera2DComponent.Rotation;
+                this.camera2D.Target = transform2DComponent.Position;
+                break;
+            case CameraType.Camera3D:
+                var camera3DComponent = Services.World.GetComponent<Camera3dComponent>(cameraEntity.Value);
+                var transform = Services.World.GetComponent<Transform3dComponent>(cameraEntity.Value);
+
+                Vector3 forward = Vector3.Normalize(
+                    Vector3.Transform(-Vector3.UnitZ, transform.Rotation));
+
+                camera3D.Position = transform.Position;
+                camera3D.Target = transform.Position + forward;
+                camera3D.Up = Vector3.Transform(Vector3.UnitY, transform.Rotation);
+
+                camera3D.FovY = camera3DComponent.FovY;
+                camera3D.Projection = camera3DComponent.Projection;
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -51,16 +96,18 @@ public class CameraService : Singleton<CameraService>
     */
     internal void BeginCamera()
     {
-        switch (cameraType)
+        this.UpdateCamera();
+
+        switch (this.cameraType)
         {
             case CameraType.Camera2D:
-                Raylib.BeginMode2D(camera2D);
+                Raylib.BeginMode2D(this.camera2D);
                 break;
             case CameraType.Camera3D:
-                Raylib.BeginMode3D(camera3D);
+                Raylib.BeginMode3D(this.camera3D);
                 break;
             default:
-                return;
+                break;
         }
     }
 
@@ -70,7 +117,7 @@ public class CameraService : Singleton<CameraService>
     */
     internal void EndCamera()
     {
-        switch (cameraType)
+        switch (this.cameraType)
         {
             case CameraType.Camera2D:
                 Raylib.EndMode2D();
@@ -79,7 +126,7 @@ public class CameraService : Singleton<CameraService>
                 Raylib.EndMode3D();
                 break;
             default:
-                return;
+                break;
         }
     }
 
@@ -89,7 +136,13 @@ public class CameraService : Singleton<CameraService>
     */
     public bool isCamera2D()
     {
-        return cameraType == CameraType.Camera2D;
+        switch (this.cameraType)
+        {
+            case CameraType.Camera2D:
+                return true;
+            default:
+                return false;
+        }
     }
 
     /**
@@ -98,7 +151,13 @@ public class CameraService : Singleton<CameraService>
     */
     public bool isCamera3D()
     {
-        return cameraType == CameraType.Camera3D;
+        switch (this.cameraType)
+        {
+            case CameraType.Camera3D:
+                return true;
+            default:
+                return false;
+        }
     }
 
     /**
@@ -108,13 +167,12 @@ public class CameraService : Singleton<CameraService>
     */
     public Vector2? WorldToScreen(Vector3 worldPosition)
     {
-        if (cameraType == CameraType.Camera3D)
+        switch (this.cameraType)
         {
-            return Raylib.GetWorldToScreen(worldPosition, camera3D);
-        }
-        else
-        {
-            return null;
+            case CameraType.Camera3D:
+                return Raylib.GetWorldToScreen(worldPosition, this.camera3D);
+            default:
+                return null;
         }
     }
 }

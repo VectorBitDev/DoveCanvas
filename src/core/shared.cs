@@ -18,6 +18,7 @@ public static class Services
     public static WorldService World = WorldService.Instance;
     public static AudioService Audio = AudioService.Instance;
     public static SceneService Scene = SceneService.Instance;
+    public static MapService Map = MapService.Instance;
     public static UiService Ui = UiService.Instance;
 }
 

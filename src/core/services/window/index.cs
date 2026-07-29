@@ -33,6 +33,7 @@ public struct WindowConfiguration()
 public class WindowService : Singleton<WindowService>
 {
     private bool IsGameRunning = true;
+    private bool IsWireframeEnabled = false;
 
     /**
         * @brief Initializes the window service.
@@ -42,6 +43,8 @@ public class WindowService : Singleton<WindowService>
     {
         if (settings.IsResizable)
             Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
+
+        Raylib.SetConfigFlags(ConfigFlags.Msaa4xHint);
 
         Raylib.SetTraceLogLevel(TraceLogLevel.Fatal);
         Raylib.InitWindow((int)settings.Resolution.X, (int)settings.Resolution.Y, settings.Title);
@@ -166,5 +169,25 @@ public class WindowService : Singleton<WindowService>
             Raylib.SetTargetFPS(60);
         else
             Raylib.SetTargetFPS(0);
+    }
+
+    public bool IsDebugViewEnabled()
+    {
+        return IsWireframeEnabled;
+    }
+
+    public ref bool IsRefDebugViewEnabled()
+    {
+        return ref IsWireframeEnabled;
+    }
+
+    public void SetWireframe(bool enabled)
+    {
+        IsWireframeEnabled = enabled;
+    }
+
+    public void ToggleWireFrame()
+    {
+        IsWireframeEnabled = !IsWireframeEnabled;
     }
 }
